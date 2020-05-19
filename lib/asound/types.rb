@@ -32,7 +32,17 @@ module Asound
                :off_velocity , :uchar, # note-off velocity; only for #SND_SEQ_EVENT_NOTE
                :duration     , :int    # duration until note-off; only for #SND_SEQ_EVENT_NOTE
       end
-      layout :note, EvNote
+
+      class EvCtrl < FFI::Struct
+          layout :channel , :uchar,
+                 :unused  , [:uchar, 3],
+                 :param   , :uint,
+                 :value   , :int
+      end
+
+      layout :note      , EvNote,
+             :ctrl      , EvCtrl,
+             :pgmchange , EvCtrl
       # TODO : add other union members
 
     end

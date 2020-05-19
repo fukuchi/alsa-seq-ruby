@@ -43,13 +43,14 @@ class AlsaMidi
     write_note(ev)
   end
 
-  def write_note(ev)
+  def write_event(ev)
     ev.set_direct
     ev.set_source( @client_id, @out )
     ev.set_dest( SND_SEQ_ADDRESS_SUBSCRIBERS, SND_SEQ_ADDRESS_UNKNOWN )
 
     alsa :event_output_direct, ev.pointer
   end  
+  alias_method :write_note, :write_event
 
   def connect_out_to(client, port)
     alsa :connect_to, @out, client, port
